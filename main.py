@@ -1,4 +1,5 @@
 import argparse
+import time
 
 from analyzer.parser import read_logs, parse_log_line
 from analyzer.metrics import Metrics
@@ -30,6 +31,9 @@ def main():
     processed_logs = 0
 
 
+    start_time = time.time()
+
+
     for line in read_logs(log_path):
 
         log = parse_log_line(line)
@@ -40,6 +44,12 @@ def main():
             metrics.update(log)
 
             processed_logs += 1
+
+
+
+    end_time = time.time()
+
+    execution_time = end_time - start_time
 
 
 
@@ -60,6 +70,11 @@ def main():
 
     print(
         f"Unique IPs     : {len(metrics.unique_ips)}"
+    )
+
+
+    print(
+        f"Processed Logs : {processed_logs}"
     )
 
 
@@ -197,6 +212,25 @@ def main():
 
         print(
             "No 5xx error spikes detected"
+        )
+
+
+
+    print("\nPerformance")
+    print("-" * 50)
+
+
+    print(
+        f"Execution Time : {execution_time:.2f} seconds"
+    )
+
+
+    if execution_time > 0:
+
+        logs_per_second = processed_logs / execution_time
+
+        print(
+            f"Processing Speed : {logs_per_second:.2f} logs/sec"
         )
 
 
