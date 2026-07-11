@@ -1,6 +1,18 @@
+import gzip
+
+
 def read_logs(file_path):
 
-    with open(file_path, "r") as file:
+    if file_path.endswith(".gz"):
+
+        file = gzip.open(file_path, "rt")
+
+    else:
+
+        file = open(file_path, "r")
+
+
+    with file:
 
         for line in file:
 
