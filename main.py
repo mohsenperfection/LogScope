@@ -1,7 +1,12 @@
 from analyzer.parser import read_logs, parse_log_line
+from analyzer.metrics import Metrics
+
 
 
 def main():
+
+    metrics = Metrics()
+
 
     for line in read_logs("access.log"):
 
@@ -10,9 +15,23 @@ def main():
 
         if log:
 
-            print(log)
+            metrics.update(log)
 
-            break
+
+
+    print("=" * 40)
+    print("LogScope Report")
+    print("=" * 40)
+
+
+    print(
+        f"Total Requests: {metrics.total_requests}"
+    )
+
+
+    print(
+        f"Unique IPs: {len(metrics.unique_ips)}"
+    )
 
 
 
