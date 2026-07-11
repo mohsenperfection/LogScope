@@ -99,6 +99,7 @@ def main():
         )
 
 
+
     print("\nError Rate")
     print("-" * 50)
 
@@ -106,6 +107,7 @@ def main():
     print(
         f"{metrics.error_rate():.2f}%"
     )
+
 
 
     print("\nRequests Per Hour")
@@ -119,6 +121,7 @@ def main():
         print(
             f"{hour}:00 -> {count}"
         )
+
 
 
     print("\nHourly Traffic Histogram")
@@ -147,6 +150,55 @@ def main():
             print(
                 f"{hour}:00 | {bar} {count}"
             )
+
+
+
+    print("\nSuspicious Login Attempts")
+    print("-" * 50)
+
+
+    suspicious_ips = metrics.get_suspicious_ips()
+
+
+    if suspicious_ips:
+
+        for ip, count in suspicious_ips.items():
+
+            print(
+                f"{ip:<25} {count} failed login attempts"
+            )
+
+    else:
+
+        print(
+            "No suspicious IPs detected"
+        )
+
+
+
+    print("\n5xx Error Spikes")
+    print("-" * 50)
+
+
+    error_spikes = metrics.detect_error_spikes()
+
+
+    if error_spikes:
+
+        for hour, rate in sorted(
+            error_spikes.items()
+        ):
+
+            print(
+                f"{hour}:00 -> Error Rate: {rate:.2f}%"
+            )
+
+    else:
+
+        print(
+            "No 5xx error spikes detected"
+        )
+
 
 
 

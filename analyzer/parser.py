@@ -64,7 +64,11 @@ def parse_log_line(line):
 
     if len(parts) > 8:
 
-        log_entry["status"] = parts[8]
+        status = parts[8]
+
+        if status.isdigit():
+
+            log_entry["status"] = status
 
 
 
