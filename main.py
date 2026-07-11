@@ -79,7 +79,13 @@ def main():
             f"{status}: {count}"
         )
 
+    print("\nError Rate")
+    print("-" * 50)
 
+
+    print(
+        f"{metrics.error_rate():.2f}%"
+        )
 
     print("\nRequests Per Hour")
     print("-" * 50)
@@ -91,6 +97,33 @@ def main():
 
         print(
             f"{hour}:00 -> {count}"
+        )
+
+    print("\nHourly Traffic Histogram")
+    print("-" * 50)
+
+
+    if metrics.hourly_requests:
+
+        max_requests = max(
+        metrics.hourly_requests.values()
+    )
+
+
+    for hour, count in sorted(
+        metrics.hourly_requests.items()
+    ):
+
+        bar_length = int(
+            (count / max_requests) * 50
+        )
+
+
+        bar = "#" * bar_length
+
+
+        print(
+            f"{hour}:00 | {bar} {count}"
         )
 
 

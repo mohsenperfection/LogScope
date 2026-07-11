@@ -17,6 +17,8 @@ class Metrics:
 
         self.hourly_requests = Counter()
 
+        self.error_count = 0
+
 
 
     def update(self, log):
@@ -53,7 +55,9 @@ class Metrics:
 
             self.status_codes[status] += 1
 
+            if status.startswith("4") or status.startswith("5"):
 
+                self.error_count += 1
 
         hour = self.extract_hour(
             log.get("timestamp")
@@ -104,3 +108,15 @@ class Metrics:
         except IndexError:
 
             return None
+        
+    def error_rate(self):
+
+        if self.total_requests == 0:
+
+            return 0
+
+
+        return (
+            self.error_count /
+            self.total_requests
+    ) * 100
