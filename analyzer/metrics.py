@@ -15,6 +15,8 @@ class Metrics:
 
         self.status_codes = Counter()
 
+        self.hourly_requests = Counter()
+
 
 
     def update(self, log):
@@ -53,6 +55,17 @@ class Metrics:
 
 
 
+        hour = self.extract_hour(
+            log.get("timestamp")
+        )
+
+
+        if hour:
+
+            self.hourly_requests[hour] += 1
+
+
+
 
 
     def extract_product(self, endpoint):
@@ -71,3 +84,23 @@ class Metrics:
 
 
         return None
+
+
+
+
+
+    def extract_hour(self, timestamp):
+
+        if not timestamp:
+
+            return None
+
+
+        try:
+
+            return timestamp.split(":")[1]
+
+
+        except IndexError:
+
+            return None

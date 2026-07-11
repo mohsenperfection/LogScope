@@ -35,12 +35,12 @@ def main():
 
 
     print(
-        f"Total Requests: {metrics.total_requests}"
+        f"Total Requests : {metrics.total_requests}"
     )
 
 
     print(
-        f"Unique IPs: {len(metrics.unique_ips)}"
+        f"Unique IPs     : {len(metrics.unique_ips)}"
     )
 
 
@@ -81,9 +81,17 @@ def main():
 
 
 
-    print("\nProcessed Logs:")
-    print(processed_logs)
+    print("\nRequests Per Hour")
+    print("-" * 50)
 
+
+    for hour, count in sorted(
+        metrics.hourly_requests.items()
+    ):
+
+        print(
+            f"{hour}:00 -> {count}"
+        )
 
 
 if __name__ == "__main__":
